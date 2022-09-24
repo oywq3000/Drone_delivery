@@ -68,5 +68,8 @@ Test.meta
 Test/
 ../Test/
 
+#ignore Building file
+building
+
 
 

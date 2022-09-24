@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 801499052
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: mainpanel_prefab
+      Dependencies: {}
+    Info_1:
+      Name: entrypanel_prefab
+      Dependencies: {}
+    Info_2:
+      Name: lost touch_mp3
+      Dependencies: {}
+    Info_3:
+      Name: setingpanel_prefab
+      Dependencies: {}
+    Info_4:
+      Name: exitpanel_prefab
+      Dependencies: {}
+    Info_5:
+      Name: returnpanel_prefab
+      Dependencies: {}

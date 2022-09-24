@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/_Core/BAG/BAG_Streets/BAG_Streets_scene.unity
+    guid: d7fc317c69426624788b9157d7ea5e66
+  - enabled: 1
+    path: Assets/_Core/Scenes/Menu.unity
+    guid: 42c4c15c956d3f44d938921c75b57a4e
+  m_configObjects: {}

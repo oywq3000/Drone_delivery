@@ -22,6 +22,8 @@ namespace FreeLookCustom
         [Range(0, 10)] public float m_BottomRadius;
         [Range(0, 10)] public float m_TopHeight;
         [Range(0, 10)] public float m_BottomHeight;
+        [Range(0, 10)] public float m_XValue;
+        [Range(0, 10)] public float m_YValue;
         #endregion
         //拿到壳，即摄像机的触发碰撞体
         private GameObject m_Shell;
@@ -45,12 +47,13 @@ namespace FreeLookCustom
         
         protected virtual void Update()
         {
+            Debug.Log("get");
             m_FreeLook.m_YAxis.m_MaxSpeed = 0;
             m_FreeLook.m_XAxis.m_MaxSpeed = 0;
             if (Input.GetMouseButton(1))
             {
-                m_FreeLook.m_YAxis.m_MaxSpeed = 2;
-                m_FreeLook.m_XAxis.m_MaxSpeed = 100;
+                m_FreeLook.m_YAxis.m_MaxSpeed = 3;
+                m_FreeLook.m_XAxis.m_MaxSpeed = 360;
             }
 
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
@@ -107,7 +110,8 @@ namespace FreeLookCustom
             m_FreeLook1.m_Orbits[2].m_Radius = m_CameraScale * (m_BottomRadius / 50f);
             m_FreeLook1.m_Orbits[0].m_Height = m_CameraScale * (m_TopHeight / 50f);
             m_FreeLook1.m_Orbits[2].m_Height = m_CameraScale * (-m_BottomHeight / 50f);
-          
+            m_FreeLook1.m_XAxis.Value += m_XValue;
+            m_FreeLook1.m_YAxis.Value += m_YValue;
         }
 
 #endif

@@ -34,7 +34,6 @@ namespace _Core.Scripts.Controller
                 //Interrupt the Listening
                 return;
             }
-
             base.Update();
             if (Input.GetMouseButtonDown(0))
             {
@@ -81,7 +80,6 @@ namespace _Core.Scripts.Controller
             {
                 return;
             }
-
             m_FreeLook.m_XAxis.Value = x_Value;
             m_FreeLook.m_YAxis.Value = y_Value;
             m_FreeLook.m_Orbits[1].m_Radius = cameraScale * (m_MidRadius / 50f);

@@ -47,7 +47,6 @@ namespace FreeLookCustom
         
         protected virtual void Update()
         {
-            Debug.Log("get");
             m_FreeLook.m_YAxis.m_MaxSpeed = 0;
             m_FreeLook.m_XAxis.m_MaxSpeed = 0;
             if (Input.GetMouseButton(1))

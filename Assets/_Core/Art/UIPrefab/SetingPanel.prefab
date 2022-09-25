@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 73ef8bd0e3c78ee4bb1294e842c2097a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1bf743212c6f2545a99913309fbf201, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -351,7 +351,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 29f62943db9e9d7429a30a949f5d858d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9ac24c037115b204bb9065563418c155, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -497,7 +497,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8688126460892085057}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b21c89dc34ff70746999ab51a279426e, type: 3}
+  m_Script: {fileID: 11500000, guid: 14a4914ed7f3a3c44a45025c00c4a798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   BGMusicSeting: {fileID: 8688126462196797279}
@@ -1558,7 +1558,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 73ef8bd0e3c78ee4bb1294e842c2097a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1bf743212c6f2545a99913309fbf201, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

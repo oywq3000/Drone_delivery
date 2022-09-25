@@ -80,8 +80,8 @@ namespace _Core.Scripts.Controller
             {
                 return;
             }
-            m_FreeLook.m_XAxis.Value = x_Value;
-            m_FreeLook.m_YAxis.Value = y_Value;
+            m_FreeLook.m_XAxis.Value = 0;
+            m_FreeLook.m_YAxis.Value = 0.7f;
             m_FreeLook.m_Orbits[1].m_Radius = cameraScale * (m_MidRadius / 50f);
             m_FreeLook.m_Orbits[0].m_Radius = cameraScale * (m_TopRadius / 50f);
             m_FreeLook.m_Orbits[2].m_Radius = cameraScale * (m_BottomRadius / 50f);

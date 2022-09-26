@@ -22,6 +22,14 @@ public class InputManager : MonoBehaviour, IController
     {
         //Listener
         inputSystem.UpdateHolder();
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            inputSystem.SetINT(InputLayer.EngagingGame);
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            inputSystem.RecoveryINT(InputLayer.EngagingGame);
+        }
     }
     public IArchitecture GetArchitecture()
     {

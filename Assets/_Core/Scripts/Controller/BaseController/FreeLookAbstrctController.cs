@@ -1,10 +1,15 @@
 ﻿
+using System;
+using _Core.Drove.Script.System;
+using _Core.Scripts;
 using UnityEngine;
 using Cinemachine;
+using QFramework;
+
 namespace FreeLookCustom
 {
     [RequireComponent(typeof(CinemachineFreeLook))]
-    public  class FreeLookAbstrctController : MonoBehaviour
+    public  class FreeLookAbstrctController : MonoBehaviour,IController
     {
        
         public bool isStartCamera = false;
@@ -32,6 +37,15 @@ namespace FreeLookCustom
             m_FreeLook = GetComponent<CinemachineFreeLook>();
             m_FreeLook.m_YAxis.m_MaxSpeed = 0;
             m_FreeLook.m_XAxis.m_MaxSpeed = 0;
+
+
+            var inputSystem = this.GetSystem<IInputSystem>();
+          
+            inputSystem.RegisterGetKeyDown(KeyCode.Mouse1,ListeningMouse1Down);
+            inputSystem.RegisterGetKeyUp(KeyCode.Mouse1,ListeningMouse1Up);
+           
+            inputSystem.RegisterAxis("Mouse ScrollWheel",ListeningMouseWheel);
+            
             //此函数为监听鼠标
             if (isStartCamera)
             {
@@ -44,18 +58,22 @@ namespace FreeLookCustom
             
         }
 
-        
-        protected virtual void Update()
+
+        void ListeningMouse1Down()
+        {
+            m_FreeLook.m_YAxis.m_MaxSpeed = 3;
+            m_FreeLook.m_XAxis.m_MaxSpeed = 360;
+        }
+        void ListeningMouse1Up()
         {
             m_FreeLook.m_YAxis.m_MaxSpeed = 0;
             m_FreeLook.m_XAxis.m_MaxSpeed = 0;
-            if (Input.GetMouseButton(1))
-            {
-                m_FreeLook.m_YAxis.m_MaxSpeed = 3;
-                m_FreeLook.m_XAxis.m_MaxSpeed = 360;
-            }
-
-            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        }
+        
+        
+        void ListeningMouseWheel(float e)
+        {
+            if (e > 0)
             {
                 m_CameraScale -= Time.deltaTime * 5000;
                 m_FreeLook.m_Orbits[1].m_Radius = m_CameraScale * (m_MidRadius / 50f);
@@ -65,7 +83,7 @@ namespace FreeLookCustom
                 m_FreeLook.m_Orbits[2].m_Height = m_CameraScale * (-m_BottomHeight / 50f);
             }
 
-            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            if (e < 0)
             {
                 m_CameraScale += Time.deltaTime * 5000;
                 m_FreeLook.m_Orbits[1].m_Radius = m_CameraScale * (m_MidRadius / 50f);
@@ -74,6 +92,17 @@ namespace FreeLookCustom
                 m_FreeLook.m_Orbits[0].m_Height = m_CameraScale * (m_TopHeight / 50f);
                 m_FreeLook.m_Orbits[2].m_Height = m_CameraScale * (-m_BottomHeight / 50f);
             }
+        }
+
+
+        
+
+       
+
+        protected virtual void Update()
+        {
+           
+            
         }
 
 #if UNITY_EDITOR
@@ -114,5 +143,9 @@ namespace FreeLookCustom
         }
 
 #endif
+        public IArchitecture GetArchitecture()
+        {
+            return DroneArchitecture.Interface;
+        }
     }
 }

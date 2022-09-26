@@ -23,8 +23,8 @@ namespace _Core.Drove.Script.Manager
             ResKit.Init();
             yield return new WaitForEndOfFrame();
             //intiate the FlightChannel
-            this.SendCommand(new InitiateFlightChannel(64, 5, 50));
-            UIKit.OpenPanel<EntryPanel>();
+            this.SendCommand(new InitiateFlightChannel(150, 5, 50));
+           // UIKit.OpenPanel<EntryPanel>();
         }
 
         private void Update()

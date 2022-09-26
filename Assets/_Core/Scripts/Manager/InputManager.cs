@@ -14,48 +14,17 @@ public class InputManager : MonoBehaviour, IController
     void Start()
     {
         inputSystem = this.GetSystem<IInputSystem>();
-        inputSystem.RegisterGetKeyDown(ClientKeys.Mouse0,(() =>
+        inputSystem.RegisterGetKey(ClientKeys.Mouse0,() =>
         {
             Debug.Log("000000000");
-        }));
+        },InputLayer.EngagingGame);
     }
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.anyKeyDown)
-        {
-            foreach (ClientKeys VARIABLE in Enum.GetValues(typeof(ClientKeys)))
-            {
-                if (Input.GetKeyDown((KeyCode)VARIABLE))
-                {
-                    if (inputSystem.KeyQueryDic.TryGetValue(VARIABLE,out List<Action> actions))
-                    {
-                        foreach (var action in actions)
-                        {
-                            action.Invoke();
-                        }
-                    }
-                }
-            }
-        }
-
-        if (Input.anyKey)
-        {
-            foreach (ClientKeys VARIABLE in Enum.GetValues(typeof(ClientKeys)))
-            {
-                if (Input.GetKey((KeyCode)VARIABLE))
-                {
-                    if (inputSystem.KeyQueryDicDown.TryGetValue(VARIABLE,out List<Action> actions))
-                    {
-                        foreach (var action in actions)
-                        {
-                            action.Invoke();
-                        }
-                    }
-                }
-            }
-        }
-        
+    
+        //Listener
+        inputSystem.UpdateHolder();
     }
 
     public IArchitecture GetArchitecture()

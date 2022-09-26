@@ -4,32 +4,33 @@ using _Core.Scripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using  _Core.Drove.Script.System;
+using _Core.Drove.Script.System;
 
 namespace QFramework.Example
 {
     [RequireComponent(typeof(GraphicRaycaster))]
-    public class UIOcclusionController : MonoBehaviour,IController
+    public class UIOcclusionController : MonoBehaviour, IController
     {
         //下面是用来UI事件和射线
-       private EventSystem eventSystem;
-       private GraphicRaycaster RaycastInCanvas;//Canvas上有这个组件
+        private EventSystem eventSystem;
+        private GraphicRaycaster RaycastInCanvas; //Canvas上有这个组件
 
-       private bool isOcclusion;
-       private bool IsOcclusion
-       {
-           get => isOcclusion;
-           set
-           {
-               if (value!=isOcclusion)
-               {
-                   isOcclusion = value;
-                   this.GetSystem<IInputSystem>().InterruptDroneOperation(isOcclusion);
-               }
-           }
-       }
+        private bool isOcclusion;
 
-       private void Start()
+        private bool IsOcclusion
+        {
+            get => isOcclusion;
+            set
+            {
+                if (value != isOcclusion)
+                {
+                    isOcclusion = value;
+                    this.GetSystem<IInputSystem>().InterruptDroneOperation(isOcclusion);
+                }
+            }
+        }
+
+        private void Start()
         {
             RaycastInCanvas = GetComponent<GraphicRaycaster>();
             eventSystem = GetComponentInChildren<EventSystem>();
@@ -37,10 +38,11 @@ namespace QFramework.Example
 
         private void Update()
         {
+            //Check that UI is onTriggering 
             IsOcclusion = CheckGuiRaycastObjects();
         }
 
-        public bool CheckGuiRaycastObjects()//测试UI射线
+        public bool CheckGuiRaycastObjects() //测试UI射线
         {
             PointerEventData eventData = new PointerEventData(eventSystem);
             eventData.pressPosition = Input.mousePosition;

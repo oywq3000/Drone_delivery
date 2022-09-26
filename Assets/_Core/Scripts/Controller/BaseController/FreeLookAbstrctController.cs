@@ -33,7 +33,6 @@ namespace FreeLookCustom
             m_FreeLook.m_YAxis.m_MaxSpeed = 0;
             m_FreeLook.m_XAxis.m_MaxSpeed = 0;
             //此函数为监听鼠标
-
             if (isStartCamera)
             {
                 gameObject.SetActive(true);
@@ -42,6 +41,7 @@ namespace FreeLookCustom
             {
                 gameObject.SetActive(false);
             }
+            
         }
 
         

@@ -10,6 +10,7 @@ using _Core.Scripts;
 using _Core.Scripts.Controller;
 using UnityEngine;
 using UnityEngine.UI;
+using KeyCode = UnityEngine.KeyCode;
 
 namespace _Core.Drove.Script.Manager
 {

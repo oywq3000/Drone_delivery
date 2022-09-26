@@ -73,7 +73,6 @@ namespace QFramework
             {
                 if (mArchitecture == null)
                 {
-                    Debug.Log("Static Architecture");
                     MakeSureArchitecture();
                 }
 

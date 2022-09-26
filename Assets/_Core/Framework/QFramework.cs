@@ -79,8 +79,7 @@ namespace QFramework
                 return mArchitecture;
             }
         }
-
-
+        
         static void MakeSureArchitecture()
         {
             if (mArchitecture == null)

@@ -18,7 +18,6 @@ namespace _Core.Drove.Script.System
         EngagingGame,
         UI
     }
-
     public interface IInputSystem : ISystem
     {
         //Register Key Event
@@ -37,17 +36,34 @@ namespace _Core.Drove.Script.System
         void UnRegisterGetKeyDown(KeyCode keyCode, Action action,
             InputLayer targetLayer = InputLayer.EngagingGame);
 
+        void RegisterGetKeyUp(KeyCode keyCode, Action action,
+            InputLayer targetLayer = InputLayer.EngagingGame);
+
+        void UnRegisterGetKeyUp(KeyCode keyCode, Action action,
+            InputLayer targetLayer = InputLayer.EngagingGame);
+
         //Register and UnRegister the Axis Event
         void RegisterAxis(string axisName, Action<float> action, InputLayer targetLayer = InputLayer.EngagingGame);
         void UnRegisterAxis(string axisName, Action<float> action, InputLayer targetLayer = InputLayer.EngagingGame);
 
         void UpdateHolder();
+
+        //Interrupt method
+        //Subdivision Operation
         void SetGetKeyINT(InputLayer targetLayer);
         void RecoveryGetKeyINT(InputLayer targetLayer);
         void SetGetKeyDownINT(InputLayer targetLayer);
         void RecoveryGetKeyDownINT(InputLayer targetLayer);
+        void SetGetKeyUpINT(InputLayer targetLayer);
+        void RecoveryGetKeyUpINT(InputLayer targetLayer);
         void SetGetAxisINT(InputLayer targetLayer);
         void RecoverySetGetAxisINT(InputLayer targetLayer);
+
+        //Total Operation for RecoveryINT of layer of all
+        void SetINT(InputLayer targetLayer);
+        void RecoveryINT(InputLayer targetLayer);
+
+
         void InterruptDroneOperation(bool isInterrupt);
     }
 
@@ -61,6 +77,9 @@ namespace _Core.Drove.Script.System
         public List<Dictionary<KeyCode, List<Action>>> KeyCodeDownActiveLayer { get; } =
             new List<Dictionary<KeyCode, List<Action>>>();
 
+        public List<Dictionary<KeyCode, List<Action>>> KeyCodeUpActiveLayer { get; } =
+            new List<Dictionary<KeyCode, List<Action>>>();
+
         public List<Dictionary<string, List<Action<float>>>> AxisActiveLayer { get; } =
             new List<Dictionary<string, List<Action<float>>>>();
 
@@ -69,6 +88,9 @@ namespace _Core.Drove.Script.System
             new Dictionary<InputLayer, Dictionary<KeyCode, List<Action>>>();
 
         private Dictionary<InputLayer, Dictionary<KeyCode, List<Action>>> RegisteredKeyCodeDownDic =
+            new Dictionary<InputLayer, Dictionary<KeyCode, List<Action>>>();
+
+        private Dictionary<InputLayer, Dictionary<KeyCode, List<Action>>> RegisteredKeyCodeUpDic =
             new Dictionary<InputLayer, Dictionary<KeyCode, List<Action>>>();
 
         private Dictionary<InputLayer, Dictionary<string, List<Action<float>>>> RegisteredAxisDic =
@@ -131,6 +153,25 @@ namespace _Core.Drove.Script.System
                     }
                 }
             }
+
+            //get keyup
+            foreach (var dic in KeyCodeUpActiveLayer)
+            {
+                foreach (var dicKey in dic.Keys)
+                {
+                    if (Input.GetKeyUp(dicKey))
+                    {
+                        if (dic.TryGetValue(dicKey, out List<Action> actions))
+                        {
+                            foreach (var action in actions)
+                            {
+                                action?.Invoke();
+                            }
+                        }
+                    }
+                }
+            }
+
             //Axis Event
             foreach (var dic in AxisActiveLayer)
             {
@@ -244,6 +285,52 @@ namespace _Core.Drove.Script.System
             }
         }
 
+        public void RegisterGetKeyUp(KeyCode keyCode, Action action,
+            InputLayer targetLayer = InputLayer.EngagingGame)
+        {
+            //RegisterGetKey Event
+            if (RegisteredKeyCodeUpDic.TryGetValue(targetLayer, out Dictionary<KeyCode, List<Action>> valueDic))
+            {
+                if (valueDic.TryGetValue(keyCode, out List<Action> actions))
+                {
+                    actions.Add(action);
+                }
+                else
+                {
+                    var list = new List<Action>();
+                    list.Add(action);
+                    valueDic.Add(keyCode, list);
+                }
+            }
+            else
+            {
+                var dictionary = new Dictionary<KeyCode, List<Action>>();
+                var list = new List<Action>();
+                list.Add(action);
+                dictionary.Add(keyCode, list);
+                RegisteredKeyCodeUpDic.Add(targetLayer, dictionary);
+                //when input layer is first created, add it to active list, which is defualt
+                KeyCodeUpActiveLayer.Add(dictionary);
+            }
+        }
+
+        public void UnRegisterGetKeyUp(KeyCode keyCode, Action action,
+            InputLayer targetLayer = InputLayer.EngagingGame)
+        {
+            //RegisterGetKey Event
+            if (RegisteredKeyCodeUpDic.TryGetValue(targetLayer, out Dictionary<KeyCode, List<Action>> valueDic))
+            {
+                if (valueDic.TryGetValue(keyCode, out List<Action> actions))
+                {
+                    actions.Remove(action);
+                    if (actions.Count == 0)
+                    {
+                        valueDic.Remove(keyCode);
+                    }
+                }
+            }
+        }
+
         public void RegisterAxis(string axisName, Action<float> action,
             InputLayer targetLayer = InputLayer.EngagingGame)
         {
@@ -321,7 +408,6 @@ namespace _Core.Drove.Script.System
             if (RegisteredKeyCodeDownDic.TryGetValue(targetLayer, out Dictionary<KeyCode, List<Action>> valueDic))
             {
                 KeyCodeDownActiveLayer?.Remove(valueDic);
-                Debug.Log("ActiveCount: " + KeyCodeActiveLayer.Count);
             }
         }
 
@@ -330,9 +416,45 @@ namespace _Core.Drove.Script.System
             //Recovery this layer
             if (RegisteredKeyCodeDownDic.TryGetValue(targetLayer, out Dictionary<KeyCode, List<Action>> valueDic))
             {
-                if (!KeyCodeActiveLayer.Contains(valueDic))
+                if (!KeyCodeDownActiveLayer.Contains(valueDic))
                 {
                     KeyCodeDownActiveLayer.Add(valueDic);
+                }
+            }
+        }
+
+        public void SetGetKeyUpINT(InputLayer targetLayer)
+        {
+            //remove this layer dic 
+            if (RegisteredKeyCodeUpDic.TryGetValue(targetLayer, out Dictionary<KeyCode, List<Action>> valueDic))
+            {
+                //Because keyup event always used with keydown, in order to keep keydown and keyup integrity,
+                //must trigger the keyUp event when set this layer INT
+                foreach (var dicKey in valueDic.Keys)
+                {
+                    if (Input.GetKey(dicKey))
+                    {
+                        if (valueDic.TryGetValue(dicKey,out List<Action> actions))
+                        {
+                            foreach (var action in actions)
+                            {
+                                action?.Invoke();
+                            }
+                        }
+                    }
+                }
+                KeyCodeUpActiveLayer?.Remove(valueDic);
+            }
+        }
+
+        public void RecoveryGetKeyUpINT(InputLayer targetLayer)
+        {
+            //Recovery this layer
+            if (RegisteredKeyCodeUpDic.TryGetValue(targetLayer, out Dictionary<KeyCode, List<Action>> valueDic))
+            {
+                if (!KeyCodeUpActiveLayer.Contains(valueDic))
+                {
+                    KeyCodeUpActiveLayer.Add(valueDic);
                 }
             }
         }
@@ -356,6 +478,20 @@ namespace _Core.Drove.Script.System
                     AxisActiveLayer.Add(valueDic);
                 }
             }
+        }
+        public void SetINT(InputLayer targetLayer)
+        {
+            SetGetKeyINT(targetLayer);
+            SetGetKeyDownINT(targetLayer);
+            SetGetKeyUpINT(targetLayer);
+            SetGetAxisINT(targetLayer);
+        }
+        public void RecoveryINT(InputLayer targetLayer)
+        {
+            RecoveryGetKeyINT(targetLayer);
+            RecoveryGetKeyDownINT(targetLayer);
+            RecoveryGetKeyUpINT(targetLayer);
+            RecoverySetGetAxisINT(targetLayer);
         }
     }
 }

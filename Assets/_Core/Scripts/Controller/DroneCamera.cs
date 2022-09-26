@@ -1,5 +1,6 @@
 ﻿using System;
 using _Core.Drove.Event;
+using _Core.Drove.Script.System;
 using Cinemachine;
 using FreeLookCustom;
 using QFramework;
@@ -23,63 +24,54 @@ namespace _Core.Scripts.Controller
             x_Value = m_FreeLook.m_XAxis.Value;
             y_Value = m_FreeLook.m_YAxis.Value;
             cameraScale = m_CameraScale;
-
-            this.RegisterEvent<DroneOperationListener>(e => { isInterrupt = e.IsInterrupt; });
+            var inputSystem = this.GetSystem<IInputSystem>();
+            inputSystem.RegisterGetKeyDown(KeyCode.Mouse0,ListeningMouse0);
         }
-
-        protected override void Update()
+        void ListeningMouse0()
         {
-            if (isInterrupt)
-            {
-                //Interrupt the Listening
-                return;
-            }
-            base.Update();
-            if (Input.GetMouseButtonDown(0))
-            {
-                ray = Camera.main.ScreenPointToRay(Input.mousePosition); //发出射线
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition); //发出射线
 
-                if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit))
+            {
+                var m_TempGameObj = hit.collider.gameObject;
+                if (m_TempGameObj != transform.parent.gameObject ||
+                    m_TempGameObj.transform.parent.parent.gameObject != transform.parent.gameObject)
                 {
-                    var m_TempGameObj = hit.collider.gameObject;
-                    if (m_TempGameObj != transform.parent.gameObject ||
-                        m_TempGameObj.transform.parent.parent.gameObject != transform.parent.gameObject)
+                    if (m_TempGameObj.CompareTag("Drone"))
                     {
-                        if (m_TempGameObj.CompareTag("Drone"))
+                        var pointCamera = m_TempGameObj.GetComponent<DroneController>().PointCamera;
+                        //Trigger Event
+                        DroneArchitecture.Interface.SendEvent(new BeforeCameraBlend()
+                            {CurrentCamera = this.transform.position, TargentCamera = pointCamera.Position()});
+
+                        pointCamera.SetActive(true);
+                        this.gameObject.SetActive(false);
+                    }
+
+                    if (m_TempGameObj.CompareTag("Radar"))
+                    {
+                        if (m_TempGameObj.transform.parent.parent.gameObject != transform.parent.gameObject)
                         {
-                            var pointCamera = m_TempGameObj.GetComponent<DroneController>().PointCamera;
-                            //Trigger Event
+                            var pointCamera = m_TempGameObj.transform.parent.parent.GetComponent<DroneController>()
+                                .PointCamera;
                             DroneArchitecture.Interface.SendEvent(new BeforeCameraBlend()
                                 {CurrentCamera = this.transform.position, TargentCamera = pointCamera.Position()});
-
-                            pointCamera.SetActive(true);
+                            pointCamera
+                                .SetActive(true);
                             this.gameObject.SetActive(false);
-                        }
-
-                        if (m_TempGameObj.CompareTag("Radar"))
-                        {
-                            if (m_TempGameObj.transform.parent.parent.gameObject != transform.parent.gameObject)
-                            {
-                                var pointCamera = m_TempGameObj.transform.parent.parent.GetComponent<DroneController>()
-                                    .PointCamera;
-                                DroneArchitecture.Interface.SendEvent(new BeforeCameraBlend()
-                                    {CurrentCamera = this.transform.position, TargentCamera = pointCamera.Position()});
-                                pointCamera
-                                    .SetActive(true);
-                                this.gameObject.SetActive(false);
-                            }
                         }
                     }
                 }
             }
         }
-
+        
         private void OnEnable()
         {
             if (!m_FreeLook)
             {
                 return;
             }
+
             m_FreeLook.m_XAxis.Value = 0;
             m_FreeLook.m_YAxis.Value = 0.7f;
             m_FreeLook.m_Orbits[1].m_Radius = cameraScale * (m_MidRadius / 50f);

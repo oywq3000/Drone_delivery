@@ -18,7 +18,7 @@ public class InputManager : MonoBehaviour, IController
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         //Listener
         inputSystem.UpdateHolder();

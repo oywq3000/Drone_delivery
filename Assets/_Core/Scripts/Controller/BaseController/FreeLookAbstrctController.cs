@@ -41,8 +41,8 @@ namespace FreeLookCustom
 
             var inputSystem = this.GetSystem<IInputSystem>();
           
-            inputSystem.RegisterGetKeyDown(KeyCode.Mouse1,ListeningMouse1Down);
-            inputSystem.RegisterGetKeyUp(KeyCode.Mouse1,ListeningMouse1Up);
+            inputSystem.RegisterGetKeyDown(KeyCode.Mouse1,ListeningMouse1Down,InputLayer.GameClickEvent);
+            inputSystem.RegisterGetKeyUp(KeyCode.Mouse1,ListeningMouse1Up,InputLayer.GameClickEvent);
            
             inputSystem.RegisterAxis("Mouse ScrollWheel",ListeningMouseWheel);
             
@@ -57,8 +57,6 @@ namespace FreeLookCustom
             }
             
         }
-
-
         void ListeningMouse1Down()
         {
             m_FreeLook.m_YAxis.m_MaxSpeed = 3;

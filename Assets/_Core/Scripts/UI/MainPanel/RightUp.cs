@@ -25,7 +25,6 @@ namespace QFramework.Example
         private void Awake()
         {
             _moniterDroneInfHolder = MoniterDroneInf();
-
             //Register Camera Change Event
             Camera.main.GetComponent<CinemachineBrain>().m_CameraActivatedEvent
                 .AddListener((a, b) =>
@@ -33,7 +32,7 @@ namespace QFramework.Example
                     if (a.VirtualCameraGameObject.CompareTag("DroneCamera"))
                     {
                         DroneInf.text = " ";
-                        _droneController = a.VirtualCameraGameObject.transform.parent.GetComponent<_Core.Scripts.Controller.DroneController>();
+                        _droneController = a.VirtualCameraGameObject.transform.parent.GetComponent<DroneController>();
                     }
                     else
                     {

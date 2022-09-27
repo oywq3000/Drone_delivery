@@ -200,7 +200,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 29f62943db9e9d7429a30a949f5d858d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9ac24c037115b204bb9065563418c155, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2152764553293986108}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1293583e9cf1f043bf58c0ce7ac16a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b5cf3df0bef0014f9b530931f8954b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ExitBtn: {fileID: 2152764554240920618}
@@ -450,7 +450,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 73ef8bd0e3c78ee4bb1294e842c2097a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f855c3ca061ab574a9a274d0effc738e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -585,7 +585,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 73ef8bd0e3c78ee4bb1294e842c2097a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f855c3ca061ab574a9a274d0effc738e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -867,4 +867,4 @@ MonoBehaviour:
   MarkType: 0
   CustomComponentName: 
   CustomComment: 
-  mComponentName: 
+  mComponentName: UnityEngine.UI.Button

@@ -10,13 +10,11 @@ namespace _Core.Drove.Script.System
     /// <summary>
     /// client customize the input buttion
     /// </summary>
-    /// <summary>
-    /// Interrupt layer, client customize
-    /// </summary>
     public enum InputLayer
     {
         EngagingGame,
-        UI
+        UI,
+        GameClickEvent
     }
     public interface IInputSystem : ISystem
     {

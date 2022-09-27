@@ -24,7 +24,7 @@ namespace _Core.Drove.Script.Manager
             yield return new WaitForEndOfFrame();
             //intiate the FlightChannel
             this.SendCommand(new InitiateFlightChannel(150, 5, 50));
-           // UIKit.OpenPanel<EntryPanel>();
+            UIKit.OpenPanel<EntryPanel>();
         }
 
         private void Update()
@@ -37,7 +37,7 @@ namespace _Core.Drove.Script.Manager
             if (Input.GetKeyDown(KeyCode.R))
             {
                 //On Exit you need to Close all the Panel prevent Panel resource destroyed by Monobehavior
-               this.SendCommand(new SwitchSceneCmd("DeliveryPark"));
+                this.SendCommand(new SwitchSceneCmd("DeliveryPark"));
             }
         }
 

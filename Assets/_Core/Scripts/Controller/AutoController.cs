@@ -447,7 +447,6 @@ namespace Drove
                 {
                     continue;
                 }
-
                 pos = _currentTsm.position;
                 pos = new Vector3(pos.x
                     , Mathf.Lerp(pos.y,

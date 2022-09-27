@@ -25,7 +25,15 @@ namespace QFramework.Example
                 if (value != isOcclusion)
                 {
                     isOcclusion = value;
-                    this.GetSystem<IInputSystem>().InterruptDroneOperation(isOcclusion);
+                    if (isOcclusion)
+                    {
+                        this.GetSystem<IInputSystem>().SetINT(InputLayer.EngagingGame);
+                    }
+                    else
+                    {
+                        this.GetSystem<IInputSystem>().RecoveryINT(InputLayer.EngagingGame);
+                    }
+                  
                 }
             }
         }

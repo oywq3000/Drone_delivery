@@ -43,14 +43,9 @@ namespace _Core.Scripts.Controller
         public float HorizenMaxSpeed = 10;
         public GameObject[] rotors;
         private float _currentSpeed = 0;
-
         private float _volume = 0.5f;
-
         private Vector3 DroneRotation;
         private IEnumerator DroneEngineHolder;
-
-      
-        
         private IEnumerator Start()
         {
             yield return new WaitForEndOfFrame();

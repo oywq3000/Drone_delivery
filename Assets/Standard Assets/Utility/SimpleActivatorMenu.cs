@@ -1,7 +1,9 @@
 using System;
+using System.Net.Mime;
 using UnityEngine;
 using UnityEngine.UI;
 
+#pragma warning disable 618
 namespace UnityStandardAssets.Utility
 {
     public class SimpleActivatorMenu : MonoBehaviour

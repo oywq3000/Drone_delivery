@@ -1,5 +1,6 @@
 ﻿using System;
 using _Core.Drove.Event;
+using _Core.Drove.Script.System;
 using _Core.Scripts.Utility;
 using Cinemachine;
 using Drove;
@@ -37,67 +38,53 @@ namespace _Core.Scripts.Controller
         private float x_Value;
         private float y_Value;
         private float cameraScale;
-
-        private bool isInterrupt = false;
-
+        
         protected override void Start()
         {
             base.Start();
             x_Value = m_FreeLook.m_XAxis.Value;
             y_Value = m_FreeLook.m_YAxis.Value;
             cameraScale = m_CameraScale;
-            this.RegisterEvent<DroneOperationListener>(e => { isInterrupt = e.IsInterrupt; });
-
             //Initiate Id and join the List of SceneCameraModel
             var sceneCameraControllers = this.GetModel<ISceneCameraModel>().SceneCameraList;
             //id = InitKit.GenerateId(sceneCameraControllers.Count);
             sceneCameraControllers.Add(this);
-
             _gameObject = gameObject;
+          
         }
 
-        protected override void Update()
+        private void ListeningMouse0()
         {
-            if (isInterrupt)
-            {
-                //Interrupt the Listening
-                return;
-            }
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition); //发出射线
 
-            base.Update();
-            if (Input.GetMouseButtonDown(0))
+            if (Physics.Raycast(ray, out hit))
             {
-                ray = Camera.main.ScreenPointToRay(Input.mousePosition); //发出射线
-
-                if (Physics.Raycast(ray, out hit))
+                var m_TempGameObj = hit.collider.gameObject;
+                if (m_TempGameObj != transform.parent.gameObject ||
+                    m_TempGameObj.transform.parent.parent.gameObject != transform.parent.gameObject)
                 {
-                    var m_TempGameObj = hit.collider.gameObject;
-                    if (m_TempGameObj != transform.parent.gameObject ||
-                        m_TempGameObj.transform.parent.parent.gameObject != transform.parent.gameObject)
+                    if (m_TempGameObj.CompareTag("Drone"))
                     {
-                        if (m_TempGameObj.CompareTag("Drone"))
+                        var pointCamera = m_TempGameObj.GetComponent<DroneController>().PointCamera;
+                        //Trigger Event
+                        DroneArchitecture.Interface.SendEvent(new BeforeCameraBlend()
+                            {CurrentCamera = this.transform.position, TargentCamera = pointCamera.Position()});
+
+                        pointCamera.SetActive(true);
+                        this.gameObject.SetActive(false);
+                    }
+
+                    if (m_TempGameObj.CompareTag("Radar"))
+                    {
+                        if (m_TempGameObj.transform.parent.parent.gameObject != transform.parent.gameObject)
                         {
-                            var pointCamera = m_TempGameObj.GetComponent<DroneController>().PointCamera;
-                            //Trigger Event
+                            var pointCamera = m_TempGameObj.transform.parent.parent.GetComponent<DroneController>()
+                                .PointCamera;
                             DroneArchitecture.Interface.SendEvent(new BeforeCameraBlend()
                                 {CurrentCamera = this.transform.position, TargentCamera = pointCamera.Position()});
-
-                            pointCamera.SetActive(true);
+                            pointCamera
+                                .SetActive(true);
                             this.gameObject.SetActive(false);
-                        }
-
-                        if (m_TempGameObj.CompareTag("Radar"))
-                        {
-                            if (m_TempGameObj.transform.parent.parent.gameObject != transform.parent.gameObject)
-                            {
-                                var pointCamera = m_TempGameObj.transform.parent.parent.GetComponent<DroneController>()
-                                    .PointCamera;
-                                DroneArchitecture.Interface.SendEvent(new BeforeCameraBlend()
-                                    {CurrentCamera = this.transform.position, TargentCamera = pointCamera.Position()});
-                                pointCamera
-                                    .SetActive(true);
-                                this.gameObject.SetActive(false);
-                            }
                         }
                     }
                 }
@@ -118,6 +105,14 @@ namespace _Core.Scripts.Controller
             m_FreeLook.m_Orbits[2].m_Radius = cameraScale * (m_BottomRadius / 50f);
             m_FreeLook.m_Orbits[0].m_Height = cameraScale * (m_TopHeight / 50f);
             m_FreeLook.m_Orbits[2].m_Height = cameraScale * (-m_BottomHeight / 50f);
+            //Register a KeyDown Event
+            this.GetSystem<IInputSystem>().RegisterGetKeyDown(KeyCode.Mouse0, ListeningMouse0);
+        }
+
+        private void OnDisable()
+        {
+            //Register a KeyDown Event
+            this.GetSystem<IInputSystem>().UnRegisterGetKeyDown(KeyCode.Mouse0, ListeningMouse0);
         }
 
         public void SetScale(float degree)

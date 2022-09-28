@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections;
-using _Core.Drove.Event;
-using _Core.Drove.Script.System;
+﻿using System.Collections;
 using Drove;
 using Drove.Command.Command;
 using QFramework;
 using QFramework.Example;
 using _Core.Scripts;
-using _Core.Scripts.Controller;
 using UnityEngine;
-using UnityEngine.UI;
 using KeyCode = UnityEngine.KeyCode;
 
 namespace _Core.Drove.Script.Manager
@@ -23,7 +18,7 @@ namespace _Core.Drove.Script.Manager
             ResKit.Init();
             yield return new WaitForEndOfFrame();
             //intiate the FlightChannel
-            this.SendCommand(new InitiateFlightChannel(150, 5, 50));
+           this.GetModel<IAerialDroneCount>().InitChannel();
             UIKit.OpenPanel<EntryPanel>();
         }
 

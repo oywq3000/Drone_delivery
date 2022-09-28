@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using _Core.Drove.Script.System;
 using _Core.Scripts;
 using UnityEngine;
@@ -9,14 +8,15 @@ using QFramework;
 namespace FreeLookCustom
 {
     [RequireComponent(typeof(CinemachineFreeLook))]
-    public  class FreeLookAbstrctController : MonoBehaviour,IController
+    public class FreeLookAbstrctController : MonoBehaviour, IController
     {
-       
         public bool isStartCamera = false;
         protected CinemachineFreeLook m_FreeLook;
         protected Ray ray;
+
         protected RaycastHit hit;
         //用来显示和控制该相机的scale(即等比缩放相机的轨道、视角)
+
         #region 在界面中更改的参数
 
         //视野和轨道的规格大小，可等比放大缩小范围
@@ -29,9 +29,12 @@ namespace FreeLookCustom
         [Range(0, 10)] public float m_BottomHeight;
         [Range(0, 10)] public float m_XValue;
         [Range(0, 10)] public float m_YValue;
+
         #endregion
+
         //拿到壳，即摄像机的触发碰撞体
         private GameObject m_Shell;
+
         protected virtual void Start()
         {
             m_FreeLook = GetComponent<CinemachineFreeLook>();
@@ -40,12 +43,12 @@ namespace FreeLookCustom
 
 
             var inputSystem = this.GetSystem<IInputSystem>();
-          
-            inputSystem.RegisterGetKeyDown(KeyCode.Mouse1,ListeningMouse1Down,InputLayer.GameClickEvent);
-            inputSystem.RegisterGetKeyUp(KeyCode.Mouse1,ListeningMouse1Up,InputLayer.GameClickEvent);
-           
-            inputSystem.RegisterAxis("Mouse ScrollWheel",ListeningMouseWheel);
-            
+
+            inputSystem.RegisterGetKeyDown(KeyCode.Mouse1, ListeningMouse1Down, InputLayer.GameClickEvent);
+            inputSystem.RegisterGetKeyUp(KeyCode.Mouse1, ListeningMouse1Up, InputLayer.GameClickEvent);
+
+            inputSystem.RegisterAxis("Mouse ScrollWheel", ListeningMouseWheel);
+
             //此函数为监听鼠标
             if (isStartCamera)
             {
@@ -55,20 +58,20 @@ namespace FreeLookCustom
             {
                 gameObject.SetActive(false);
             }
-            
         }
+
         void ListeningMouse1Down()
         {
             m_FreeLook.m_YAxis.m_MaxSpeed = 3;
-            m_FreeLook.m_XAxis.m_MaxSpeed = 360;
+            m_FreeLook.m_XAxis.m_MaxSpeed = 180;
         }
+
         void ListeningMouse1Up()
         {
             m_FreeLook.m_YAxis.m_MaxSpeed = 0;
             m_FreeLook.m_XAxis.m_MaxSpeed = 0;
         }
-        
-        
+
         void ListeningMouseWheel(float e)
         {
             if (e > 0)
@@ -93,14 +96,8 @@ namespace FreeLookCustom
         }
 
 
-        
-
-       
-
         protected virtual void Update()
         {
-           
-            
         }
 
 #if UNITY_EDITOR
@@ -118,6 +115,7 @@ namespace FreeLookCustom
             m_FreeLook1.m_Orbits[0].m_Height = m_CameraScale * (m_TopHeight / 50f);
             m_FreeLook1.m_Orbits[2].m_Height = m_CameraScale * (-m_BottomHeight / 50f);
         }
+
         private void Reset()
         {
             m_FreeLook1 = GetComponent<CinemachineFreeLook>();

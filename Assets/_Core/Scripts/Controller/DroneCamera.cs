@@ -24,8 +24,7 @@ namespace _Core.Scripts.Controller
             x_Value = m_FreeLook.m_XAxis.Value;
             y_Value = m_FreeLook.m_YAxis.Value;
             cameraScale = m_CameraScale;
-            var inputSystem = this.GetSystem<IInputSystem>();
-            inputSystem.RegisterGetKeyDown(KeyCode.Mouse0,ListeningMouse0);
+          
         }
         void ListeningMouse0()
         {
@@ -71,7 +70,6 @@ namespace _Core.Scripts.Controller
             {
                 return;
             }
-
             m_FreeLook.m_XAxis.Value = 0;
             m_FreeLook.m_YAxis.Value = 0.7f;
             m_FreeLook.m_Orbits[1].m_Radius = cameraScale * (m_MidRadius / 50f);
@@ -79,6 +77,12 @@ namespace _Core.Scripts.Controller
             m_FreeLook.m_Orbits[2].m_Radius = cameraScale * (m_BottomRadius / 50f);
             m_FreeLook.m_Orbits[0].m_Height = cameraScale * (m_TopHeight / 50f);
             m_FreeLook.m_Orbits[2].m_Height = cameraScale * (-m_BottomHeight / 50f);
+            this.GetSystem<IInputSystem>().RegisterGetKeyDown(KeyCode.Mouse0,ListeningMouse0);
+        }
+
+        private void OnDisable()
+        {
+            this.GetSystem<IInputSystem>().UnRegisterGetKeyDown(KeyCode.Mouse0,ListeningMouse0);
         }
 
         public void SetScale(float degree)

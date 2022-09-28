@@ -253,7 +253,7 @@ namespace Drove
                 {
                     if (_heightHolder != null) StopCoroutine(_heightHolder);
                     if (channel > 0)
-                        this.GetSystem<INavigationSystem>().ReleaseChannel(channel);
+                        this.GetSystem<INavigationSystem>().ReleaseChannel((int)channel);
                 })
                 .OnFixedUpdate(() =>
                 {

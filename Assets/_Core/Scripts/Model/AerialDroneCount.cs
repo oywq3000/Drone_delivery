@@ -55,8 +55,7 @@ namespace Drove
 
         protected override void OnInit()
         {
-            //if get Scene Exit Event then clear the Channel 
-            Channel.Clear();
+         
         }
     }
 }

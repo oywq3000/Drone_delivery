@@ -30,7 +30,6 @@ namespace Drove.Command.Command
                         VARIABLE.PointCamera.SetActive(true);
                         return;
                     }
-
                     this.SendEvent(new BeforeCameraBlend()
                     {
                         CurrentCamera = _cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.transform.position,

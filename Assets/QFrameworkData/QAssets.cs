@@ -16,20 +16,15 @@ namespace QAssetBundle
         public const string BundleName = "entrypanel_prefab";
         public const string ENTRYPANEL = "entrypanel";
     }
-    public class Exitpanel_prefab
-    {
-        public const string BundleName = "exitpanel_prefab";
-        public const string EXITPANEL = "exitpanel";
-    }
-    public class Lost_touch_mp3
-    {
-        public const string BundleName = "lost touch_mp3";
-        public const string LOST_TOUCH = "lost touch";
-    }
     public class Mainpanel_prefab
     {
         public const string BundleName = "mainpanel_prefab";
         public const string MAINPANEL = "mainpanel";
+    }
+    public class Returnpanel_prefab
+    {
+        public const string BundleName = "returnpanel_prefab";
+        public const string RETURNPANEL = "returnpanel";
     }
     public class Setingpanel_prefab
     {

@@ -50,7 +50,9 @@ namespace _Core.Scripts.Controller
             //id = InitKit.GenerateId(sceneCameraControllers.Count);
             sceneCameraControllers.Add(this);
             _gameObject = gameObject;
-          
+            
+            //Register listening Event
+            this.GetSystem<IInputSystem>().RegisterGetKeyDown(KeyCode.Mouse0,ListeningMouse0);
         }
 
         private void ListeningMouse0()

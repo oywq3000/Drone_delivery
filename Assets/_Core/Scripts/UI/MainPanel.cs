@@ -73,7 +73,7 @@ namespace QFramework.Example
 				Debug.Log("ViewCameraEvent");
 				//Avoid looping to trigger this two Events
 				LeftDown.UnRegisterEvent(OnValueChanged);
-				var id = a.VirtualCameraGameObject.transform.parent.GetComponent<_Core.Scripts.Controller.DroneController>().Id;
+				var id = a.VirtualCameraGameObject.transform.parent.GetComponent<DroneController>().Id;
 				LeftDown.ChangeCurrentDropDownIndex(id);
 				//recovery the Event Register in the end
 				RightDown.ChangeCurrentDropDownIndex(null);

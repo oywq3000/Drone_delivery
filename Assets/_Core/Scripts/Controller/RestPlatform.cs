@@ -19,24 +19,12 @@ namespace _Core.Scripts.Controller
             _pos = transform.position;
             var restList = this.GetModel<IDroneRestPos>().RestList;
             restList.Add(this);
+            Debug.Log("RestCount:" + restList.Count);
         }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject.CompareTag("Drone"))
-            {
-                var restList = this.GetModel<IDroneRestPos>().RestList;
-                if (!restList.Exists(e => e == this))
-                {
-                    restList.Add(this);
-                }
-            }
-        }
-
 
         public Vector3 GetPos()
         {
-            return new Vector3(_pos.x,_pos.y+1,_pos.z);
+            return new Vector3(_pos.x, _pos.y + 1, _pos.z);
         }
 
         public IArchitecture GetArchitecture()

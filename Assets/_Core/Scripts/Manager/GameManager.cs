@@ -18,7 +18,7 @@ namespace _Core.Drove.Script.Manager
             ResKit.Init();
             yield return new WaitForEndOfFrame();
             //intiate the FlightChannel
-           this.GetModel<IAerialDroneCount>().InitChannel();
+           this.GetModel<IAerialDroneCount>().InitChannel(30,4,5,25);
             UIKit.OpenPanel<EntryPanel>();
         }
 

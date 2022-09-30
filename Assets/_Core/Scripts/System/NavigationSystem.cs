@@ -14,7 +14,7 @@ namespace _Core.Drove.Script.System
         TargetPosition GetCargoPos(int index = 0);
         TargetPosition GetRestPos(int index = 0);
         TargetPosition GetCargoDes(CargoController cargo);
-        void ReleaseChannel(int channel);
+        void ReleaseChannel(int channelHeight);
         void ReleaseSYstemModel();
     }
 
@@ -85,32 +85,33 @@ namespace _Core.Drove.Script.System
             {
                 if (value == 0)
                 {
-                    //if this channel is full than remove this channel key
+                    //if this channelHeight is full than remove this channelHeight key
                     ChannelModel.Channel.Remove(key);
                 }
             }
             return ChannelModel.OriginalHeight + key * ChannelModel.ChannelSpan;
         }
 
-        public void ReleaseChannel(int channel)
+        public void ReleaseChannel(int channelHeight)
         {
-            var channelDic = this.GetModel<IAerialDroneCount>().Channel;
-            if (channelDic.Keys.Contains(channel))
+           
+            var channelModel = this.GetModel<IAerialDroneCount>();
+            int channelKey = (channelHeight - channelModel.OriginalHeight) / channelModel.ChannelSpan;
+            if (channelModel.Channel.Keys.Contains(channelKey))
             {
-                channelDic[channel]++;
+                channelModel.Channel[channelKey]++;
             }
             else
             {
-                //if this channel is full before this drone release they own channel
+                //if this channelHeight is full before this drone release they own channelHeight
                 //add back to the dictionary
-                channelDic.Add(channel,1);
+                Debug.Log("Release Channel:"+channelKey);
+                channelModel.Channel.Add(channelKey,1);
             }
-           
         }
 
         public void ReleaseSYstemModel()
         {
-            this.GetModel<IAerialDroneCount>().Channel.Clear();
             this.GetModel<IAerialDroneCount>().Channel.Clear();
             this.GetModel<IDroneRestPos>().RestList.Clear();
             this.GetModel<ICargoDesMap>().DesList.Clear();

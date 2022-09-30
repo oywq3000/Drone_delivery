@@ -44,9 +44,10 @@ namespace Drove
 
         private ExecutePoints _executePoints;
 
-        //this two holders is to record two coroutine for ending their corresponding coroutine
+        //this three holders is to record two coroutine for ending their corresponding coroutine
         private Coroutine _heightHolder;
         private Coroutine _forwardHolder;
+        private Coroutine _turnCorrenctionHoder;
 
         #region Event
         public EasyEvent OnArrivedRestPlatform = new EasyEvent();
@@ -182,7 +183,15 @@ namespace Drove
 
                 //Action sequence
                 TargetPosition = _executePoints.Points[_executePoints.Index++];
-
+                if (_executePoints.Index >= _executePoints.Points.Length)
+                {
+                    if (channel!=0)
+                    {
+                        this.GetSystem<INavigationSystem>().ReleaseChannel((int)channel);
+                    }
+                }
+                
+                
                 if (TargetPosition.y != 0)
                 {
                     //indicates TargetPosition is vertical direction
@@ -252,8 +261,6 @@ namespace Drove
                 .OnEnter(() =>
                 {
                     if (_heightHolder != null) StopCoroutine(_heightHolder);
-                    if (channel > 0)
-                        this.GetSystem<INavigationSystem>().ReleaseChannel((int)channel);
                 })
                 .OnFixedUpdate(() =>
                 {
@@ -315,6 +322,11 @@ namespace Drove
                 .OnEnter(() =>
                 {
                     if (_forwardHolder != null) StopCoroutine(_forwardHolder);
+                    if (_turnCorrenctionHoder != null)
+                    {
+                        StopCoroutine(_turnCorrenctionHoder);
+                    }
+                    _turnCorrenctionHoder = StartCoroutine(TurnCorrenction(targetRotation));
                 })
                 .OnFixedUpdate(() =>
                 {
@@ -341,19 +353,45 @@ namespace Drove
                         FSM.ChangeState(States.HorizonInterruption);
                         return;
                     }
-
                     DroveMove("00100000".ToCharArray());
+                }).OnExit(() =>
+                {
+                    if (_turnCorrenctionHoder != null)
+                    {
+                        StopCoroutine(_turnCorrenctionHoder);
+                    }
                 });
             FSM.State(States.HorizonInterruption).OnFixedUpdate(() =>
             {
                 if (HorizonSensor.onTrigger)
                 {
-                    DroveMove("00010000".ToCharArray());
+                    if (HorizonSensor.TriggerCount<3)
+                    {
+                        DroveMove("00010000".ToCharArray());
+                    }
+                    else
+                    {
+                        //this means the drone is looping on forward INT and you must resolve it
+                        if (HorizonSensor.GetLastDrone().Id.ToInt()>this.GetComponentInParent<DroneController>().Id.ToInt())
+                        {
+                            //make vertical move and the direction is judged by the two drones id
+                            DroveMove("10000000".ToCharArray());
+                            DroveMove("00100000".ToCharArray());
+                        }
+                        else
+                        {
+                            DroveMove("01000000".ToCharArray());
+                            DroveMove("00100000".ToCharArray());
+                        }
+                    }
                 }
                 else
                 {
-                    //if not signal return down state
-                    FSM.ChangeState(States.Turn);
+                    //rollback two steps 
+                    _executePoints.Index -= 2;
+                    //reset the Target
+                    TargetPosition = _executePoints.Points[_executePoints.Index];
+                    FSM.ChangeState(States.Up);
                 }
             });
         }
@@ -487,6 +525,22 @@ namespace Drove
                     transform.position = new Vector3(target.x,
                         pos.y, target.z);
                 }
+            }
+        }
+
+        IEnumerator TurnCorrenction(Quaternion targetRotation)
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(3);
+                if (Quaternion.Angle(_currentTsm.rotation, targetRotation) < 1)
+                {
+                    transform.parent.rotation = targetRotation;
+                    //correct the direction three seconds at a time
+                    yield return new WaitForSeconds(3f);
+                }
+                transform.parent.rotation =
+                    Quaternion.Slerp(_currentTsm.rotation, targetRotation, Time.deltaTime / 1.5f);
             }
         }
 

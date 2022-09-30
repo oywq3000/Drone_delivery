@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using _Core.Drove.Event;
 using QFramework;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace _Core.Drove.Script.System
         UI,
         GameClickEvent
     }
+
     public interface IInputSystem : ISystem
     {
         //Register Key Event
@@ -136,15 +138,16 @@ namespace _Core.Drove.Script.System
                 //travel all active layer and find pressed key action then invoke it
                 foreach (var dic in KeyCodeDownActiveLayer)
                 {
-                    foreach (var dicKey in dic.Keys)
+                    //inverse travel can resolve the not stop
+                    for (int i = dic.Keys.Count - 1; i >= 0; i--)
                     {
-                        if (Input.GetKeyDown(dicKey))
+                        if (Input.GetKeyDown(dic.Keys.ToList()[i]))
                         {
-                            if (dic.TryGetValue(dicKey, out List<Action> actions))
+                            if (dic.TryGetValue(dic.Keys.ToList()[i], out List<Action> actions))
                             {
-                                foreach (var action in actions)
+                                for (int j = actions.Count - 1; j >= 0; j--)
                                 {
-                                    action?.Invoke();
+                                    actions[j]?.Invoke();
                                 }
                             }
                         }
@@ -432,7 +435,7 @@ namespace _Core.Drove.Script.System
                 {
                     if (Input.GetKey(dicKey))
                     {
-                        if (valueDic.TryGetValue(dicKey,out List<Action> actions))
+                        if (valueDic.TryGetValue(dicKey, out List<Action> actions))
                         {
                             foreach (var action in actions)
                             {
@@ -441,6 +444,7 @@ namespace _Core.Drove.Script.System
                         }
                     }
                 }
+
                 KeyCodeUpActiveLayer?.Remove(valueDic);
             }
         }
@@ -477,6 +481,7 @@ namespace _Core.Drove.Script.System
                 }
             }
         }
+
         public void SetINT(InputLayer targetLayer)
         {
             SetGetKeyINT(targetLayer);
@@ -484,6 +489,7 @@ namespace _Core.Drove.Script.System
             SetGetKeyUpINT(targetLayer);
             SetGetAxisINT(targetLayer);
         }
+
         public void RecoveryINT(InputLayer targetLayer)
         {
             RecoveryGetKeyINT(targetLayer);

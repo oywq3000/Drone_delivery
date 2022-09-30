@@ -1,14 +1,10 @@
 ﻿using System;
 using _Core.Drove.Event;
 using _Core.Drove.Script.System;
-using _Core.Scripts.Utility;
-using Cinemachine;
 using Drove;
 using FreeLookCustom;
 using QFramework;
-using _Core.Scripts.Controller;
 using UnityEngine;
-
 
 namespace _Core.Scripts.Controller
 {
@@ -38,7 +34,7 @@ namespace _Core.Scripts.Controller
         private float x_Value;
         private float y_Value;
         private float cameraScale;
-        
+
         protected override void Start()
         {
             base.Start();
@@ -50,9 +46,8 @@ namespace _Core.Scripts.Controller
             //id = InitKit.GenerateId(sceneCameraControllers.Count);
             sceneCameraControllers.Add(this);
             _gameObject = gameObject;
-            
             //Register listening Event
-            this.GetSystem<IInputSystem>().RegisterGetKeyDown(KeyCode.Mouse0,ListeningMouse0);
+            this.GetSystem<IInputSystem>().RegisterGetKeyDown(KeyCode.Mouse0, ListeningMouse0);
         }
 
         private void ListeningMouse0()

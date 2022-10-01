@@ -21,7 +21,6 @@ namespace _Core.Drove.Script.System
     public class NavigationSystem : AbstractSystem, INavigationSystem
     {
         private const float HeightOffset = 0.5f;
-
         public TargetPosition GetCargoPos(int index = 0)
         {
             var cargoPosLists = this.GetModel<ICargoDesMap>().CargoList;
@@ -108,8 +107,6 @@ namespace _Core.Drove.Script.System
                 channelModel.Channel.Add(channelKey,1);
             }
         }
-
-        
         /// <summary>
         /// Used in Exit this Scene
         /// </summary>

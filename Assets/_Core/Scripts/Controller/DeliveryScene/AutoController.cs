@@ -95,6 +95,8 @@ namespace Drove
         public void Suspend()
         {
             StopAllCoroutines();
+            //UnRegisterEvent
+            this.UnRegisterEvent<DroneStartDelivery>(SeekCargo);
             FSM.Clear();
         }
 
@@ -114,7 +116,7 @@ namespace Drove
             switch (flightStates)
             {
                 case FlightStates.ToCargo:
-                    //Clear the flight channel
+                    
                     //IsEnable the collider for checking whether there is cargo
                     hookController.SetCollider(true);
                     //wait for that hook is get the cargo
@@ -148,6 +150,7 @@ namespace Drove
                     flightStates = FlightStates.Rest;
                     //stop this drone
                     StopAllCoroutines();
+                    this.SendCommand(new ToRestCmd(this.transform.parent.GetComponent<DroneController>()));
                     break;
             }
             yield return null;

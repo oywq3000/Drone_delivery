@@ -11,6 +11,10 @@ TagManager:
   - MoveCamera
   - SceneCamera
   - DroneCamera
+  - lb_groundTarget
+  - Fire
+  - CargoGroup
+  - DesPlatform
   layers:
   - Default
   - TransparentFX

@@ -20,6 +20,11 @@ namespace QFramework.Example
             Dropdown.options = optionDatas;
         }
 
+        public void RemoveOption(Dropdown.OptionData optionData)
+        {
+            Dropdown.options.Remove(optionData);
+        }
+        
         public void RegistEvent(UnityAction<int> onValueChange)
         {
             Dropdown.onValueChanged.AddListener(onValueChange);

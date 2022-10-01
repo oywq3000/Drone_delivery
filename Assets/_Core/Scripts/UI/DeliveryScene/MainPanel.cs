@@ -49,19 +49,22 @@ namespace QFramework.Example
 
 		private void LeftDownInit()
 		{
-			string specialItem = "无人机";
-			//LeftDwonInit
-			var droneControllers = this.GetModel<IDroneCountModel>().DroneList;
-			List<Dropdown.OptionData> lsit = new List<Dropdown.OptionData>();
-			lsit.Add(new Dropdown.OptionData(specialItem));
-			foreach (var VARIABLE in droneControllers)
-			{
-				var optionData = new Dropdown.OptionData(int.Parse(VARIABLE.Id).ToString()+"号");
-				lsit.Add(optionData);
-			}
-			LeftDown.SetDropDrownList(lsit);
-			LeftDown.RegistEvent(OnValueChanged);
+			List<Dropdown.OptionData> Optionlsit = new List<Dropdown.OptionData>();
+			//Initiate
+			InitOptionList();
+			
 			//Register a Listener Event
+			this.RegisterEvent<DroneListChanged>(e =>
+			{
+				if (Optionlsit.Count>0)
+				{
+					
+					var optionData = Optionlsit.Find(a => a.text == int.Parse(e.DroneController.Id).ToString() + "号");
+					LeftDown.RemoveOption(optionData);
+				}
+				
+			});
+			LeftDown.RegistEvent(OnValueChanged);
 			Camera.main.GetComponent<CinemachineBrain>().m_CameraActivatedEvent.AddListener((a,b) =>
 			{
 				//filter event that is not to the DroneCamera
@@ -78,7 +81,10 @@ namespace QFramework.Example
 				LeftDown.RegistEvent(OnValueChanged);
 			
 			});
-			//inner function
+
+			
+			
+			#region Inner Function
 			void OnValueChanged(int index)
 			{
 				//Event filter 
@@ -89,6 +95,25 @@ namespace QFramework.Example
 				var replace = System.Text.RegularExpressions.Regex.Replace(LeftDown.GetDropDownList()[index].text, @"[^0-9]+", "");
 				this.SendCommand(new SwitchViewCamera(replace));
 			}
+			
+		
+			void InitOptionList()
+			{
+				string specialItem = "无人机";
+				//LeftDwonInit
+				var droneControllers = this.GetModel<IDroneCountModel>().DroneList;
+				for (int i = droneControllers.Count-1; i >= 0; i--)
+				{
+					var optionData = new Dropdown.OptionData(int.Parse(droneControllers[i].Id).ToString()+"号");
+					Optionlsit.Add(optionData);
+				}
+				Optionlsit.Add(new Dropdown.OptionData(specialItem));
+				Optionlsit.Reverse();
+				LeftDown.SetDropDrownList(Optionlsit);
+			}
+
+			#endregion
+			
 		}
 
 		

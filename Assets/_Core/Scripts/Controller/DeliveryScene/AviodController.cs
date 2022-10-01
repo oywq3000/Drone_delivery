@@ -45,7 +45,7 @@ namespace _Core.Scripts.Controller
                 {
                     StopCoroutine(_resetTriggerCountHolder);
                 }
-                StartCoroutine(ResetTriggerCount());
+                _resetTriggerCountHolder= StartCoroutine(ResetTriggerCount());
             }
         }
 

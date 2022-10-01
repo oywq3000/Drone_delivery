@@ -25,18 +25,6 @@ namespace _Core.Drove.Script.Manager
             }).UnRegisterWhenGameObjectDestroyed(gameObject);
             
         }
-        public IAutoDrone GetAutoDrone(int index = 0)
-        {
-            if (occupyedDrone.Count!=0)
-            {
-                var autoDrone = occupyedDrone[index];
-                occupyedDrone.RemoveAt(index);
-                occupyedDrone.Add(autoDrone);
-                return autoDrone;
-            }
-            return null;
-        }
-
         public IArchitecture GetArchitecture()
         {
            return DroneArchitecture.Interface;

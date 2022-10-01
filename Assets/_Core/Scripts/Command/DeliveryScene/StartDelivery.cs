@@ -1,5 +1,6 @@
 ﻿
 using _Core.Drove.Event;
+using _Core.Drove.Script.System;
 using QFramework;
 namespace Drove.Command.Command
 {
@@ -7,7 +8,8 @@ namespace Drove.Command.Command
     {
         protected override void OnExecute()
         {
-          this.SendEvent<DroneStartDelivery>();
+            //Trigger Drone Start to delivery
+            this.SendEvent<DroneStartDelivery>();
         }
     }
 }

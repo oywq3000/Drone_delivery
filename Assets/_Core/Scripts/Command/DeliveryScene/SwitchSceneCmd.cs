@@ -19,9 +19,8 @@ namespace Drove.Command.Command
         {
             //On Scene Exit you need to Release Resource
             Debug.Log("Switch Scene");
-            AudioKit.StopMusic();
-            UIKit.CloseAllPanel();
-            this.SendEvent<OnSceneExit>();
+            //EndingDelivery
+            this.SendCommand<EndingDelivery>();
             this.GetSystem<ISceneSystem>().SwitchScene(_sceneName);
         }
     }

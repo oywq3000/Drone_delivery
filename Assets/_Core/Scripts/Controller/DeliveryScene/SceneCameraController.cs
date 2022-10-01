@@ -87,14 +87,12 @@ namespace _Core.Scripts.Controller
                 }
             }
         }
-
         private void OnEnable()
         {
             if (!m_FreeLook)
             {
                 return;
             }
-
             m_FreeLook.m_XAxis.Value = x_Value;
             m_FreeLook.m_YAxis.Value = y_Value;
             m_FreeLook.m_Orbits[1].m_Radius = cameraScale * (m_MidRadius / 50f);

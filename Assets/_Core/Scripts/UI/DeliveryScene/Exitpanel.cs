@@ -26,6 +26,7 @@ namespace QFramework.Example
 			
 			ReMakeBtn.onClick.AddListener(() =>
 			{
+		
 				this.SendCommand(new SwitchSceneCmd("DeliveryPark"));
 			});
 		}

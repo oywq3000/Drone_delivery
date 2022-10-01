@@ -69,8 +69,6 @@ namespace QFramework.Example
 				{
 					return;
 				}
-				Debug.Log("Tag"+b.VirtualCameraGameObject.tag);
-				Debug.Log("ViewCameraEvent");
 				//Avoid looping to trigger this two Events
 				LeftDown.UnRegisterEvent(OnValueChanged);
 				var id = a.VirtualCameraGameObject.transform.parent.GetComponent<DroneController>().Id;
@@ -115,9 +113,9 @@ namespace QFramework.Example
 
 		void RightUpInti()
 		{
+			//RightUp Event
 			RightUp.OnAllCargoHasSent = (cargoCount,spendTime) =>
 			{
-				//close main panel
 				UIKit.ClosePanel<MainPanel>();
 				UIKit.OpenPanel<Exitpanel>(new ExitpanelData(){CargoCount =cargoCount,SpendTime = spendTime});
 			};

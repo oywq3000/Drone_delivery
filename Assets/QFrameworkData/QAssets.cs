@@ -16,6 +16,11 @@ namespace QAssetBundle
         public const string BundleName = "entrypanel_prefab";
         public const string ENTRYPANEL = "entrypanel";
     }
+    public class Exitpanel_prefab
+    {
+        public const string BundleName = "exitpanel_prefab";
+        public const string EXITPANEL = "exitpanel";
+    }
     public class Mainpanel_prefab
     {
         public const string BundleName = "mainpanel_prefab";

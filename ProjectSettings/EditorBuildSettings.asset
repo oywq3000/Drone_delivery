@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/_Core/Scenes/DeliveryPark.unity
+    guid: 25431d331464bba4795bd2866f1beefb
+  - enabled: 1
+    path: Assets/_Core/Scenes/Menu.unity
+    guid: 71ddbd00aecf6b34e8ed32de5926ac84
   m_configObjects: {}

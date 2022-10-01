@@ -42,7 +42,7 @@ namespace QFramework.Example
                 });
             //Get cargo count
             //InitCargoCount();
-            _cargoCount = 64; //this is a time-saving behave if time permits then try complete auto-generation 
+            _cargoCount = 144; //this is a time-saving behave if time permits then try complete auto-generation 
             //initiate
             CompleteCargo.text = String.Format("送货进度：{0}/{1}", _completeCount, _cargoCount);
             this.RegisterEvent<OnOneCargoHasSent>(e =>
@@ -51,14 +51,13 @@ namespace QFramework.Example
                 if (_completeCount == _cargoCount)
                 {
                     //entrust the parent panel
-                    OnAllCargoHasSent.Invoke(_cargoCount, TimeParsy(_timer));
+                    OnAllCargoHasSent?.Invoke(_cargoCount, TimeParsy(_timer));
                 }
             });
 
 
             LiseningSwitch(true);
         }
-
         #region DroneInf
 
         public void LiseningSwitch(bool On)
@@ -98,10 +97,10 @@ namespace QFramework.Example
                     var mission = Mission(_droneController.autoController.flightStates);
                     if (mission != null)
                     {
-                        _showText = String.Format("速度:{0:F}m/s 姿态:{1} "
+                        _showText = String.Format("速度:{0:F1}m/s 姿态:{1} "
                                                   + "\n任务：{2}"
                                                   + "\n暂时目标:"
-                                                  + "\n({3:F},{4:F},{5:F})"
+                                                  + "\n({3:F1},{4:F1},{5:F1})"
                             , _droneController.rigidbody.velocity.magnitude
                             , _droneController.autoController.attitudeStates
                             , mission
@@ -111,9 +110,9 @@ namespace QFramework.Example
                     }
                     else
                     {
-                        _showText = String.Format("速度:{0:F}m/s 姿态:{1} "
+                        _showText = String.Format("速度:{0:F1}m/s 姿态:{1} "
                                                   + "\n暂时目标:"
-                                                  + "\n({2:F},{3:F},{4:F})"
+                                                  + "\n({2:F1},{3:F1},{4:F1})"
                             , _droneController.rigidbody.velocity.magnitude
                             , _droneController.autoController.attitudeStates
                             , _droneController.autoController.TargetPosition.x
@@ -156,11 +155,11 @@ namespace QFramework.Example
             string str;
             if (timer <= 60)
             {
-                str = String.Format("{0:F}s", timer);
+                str = String.Format("{0:F1}s", timer);
             }
             else
             {
-                str = String.Format("{0}m{1:F}s", (int) timer / 60, timer % 60);
+                str = String.Format("{0}m{1:F1}s", (int) timer / 60, timer % 60);
             }
 
             return str;

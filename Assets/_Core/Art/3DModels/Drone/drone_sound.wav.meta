@@ -1,7 +1,8 @@
 fileFormatVersion: 2
-guid: 044c28250199e334a8790faa980027e1
+guid: da8cba425f89d414bbfefcafcff846bd
+timeCreated: 1474291289
+licenseType: Store
 AudioImporter:
-  externalObjects: {}
   serializedVersion: 6
   defaultSettings:
     loadType: 0
@@ -15,8 +16,7 @@ AudioImporter:
   normalize: 1
   preloadAudioData: 1
   loadInBackground: 0
-  ambisonic: 0
   3D: 1
   userData: 
-  assetBundleName: lost touch_mp3
+  assetBundleName: 
   assetBundleVariant: 

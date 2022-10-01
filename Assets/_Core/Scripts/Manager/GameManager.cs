@@ -15,11 +15,9 @@ namespace _Core.Drove.Script.Manager
 
         IEnumerator Start()
         {
-            ResKit.Init();
+          
             yield return new WaitForEndOfFrame();
-            //intiate the FlightChannel
-           this.GetModel<IAerialDroneCount>().InitChannel(30,4,5,25);
-            UIKit.OpenPanel<EntryPanel>();
+           this.SendCommand<InitiateDeliveryScene>();
         }
 
         private void Update()
@@ -28,11 +26,16 @@ namespace _Core.Drove.Script.Manager
             {
                 OnOffMainPanel();
             }
-
             if (Input.GetKeyDown(KeyCode.R))
             {
                 //On Exit you need to Close all the Panel prevent Panel resource destroyed by Monobehavior
                 this.SendCommand(new SwitchSceneCmd("DeliveryPark"));
+            }
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                UIKit.ClosePanel<MainPanel>();
+                UIKit.OpenPanel<Exitpanel>(new ExitpanelData() {CargoCount = 1, SpendTime = "1"});
             }
         }
 
@@ -46,7 +49,6 @@ namespace _Core.Drove.Script.Manager
             {
                 UIKit.OpenPanel<MainPanel>();
             }
-
             switchHolder = !switchHolder;
         }
 

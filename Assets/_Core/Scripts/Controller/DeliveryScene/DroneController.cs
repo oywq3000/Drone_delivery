@@ -56,7 +56,6 @@ namespace _Core.Scripts.Controller
             id = InitKit.GenerateId(this.GetModel<IDroneCountModel>().DroneList.Count);
             //add this to the DroneCountModel list
             this.GetModel<IDroneCountModel>().DroneList.Add(this);
-            Debug.Log("DroneCount:"+this.GetModel<IDroneCountModel>().DroneList.Count);
             PointCamera = pointCamera;
             //Register Audio Event
             this.RegisterEvent<OnSoundVolumeChanged>(e => { _volume = e.Volume; })

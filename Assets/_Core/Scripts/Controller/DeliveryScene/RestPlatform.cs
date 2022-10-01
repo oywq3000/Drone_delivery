@@ -19,7 +19,6 @@ namespace _Core.Scripts.Controller
             _pos = transform.position;
             var restList = this.GetModel<IDroneRestPos>().RestList;
             restList.Add(this);
-            Debug.Log("RestCount:" + restList.Count);
         }
 
         public Vector3 GetPos()

@@ -105,11 +105,14 @@ namespace _Core.Drove.Script.System
             {
                 //if this channelHeight is full before this drone release they own channelHeight
                 //add back to the dictionary
-                Debug.Log("Release Channel:"+channelKey);
                 channelModel.Channel.Add(channelKey,1);
             }
         }
 
+        
+        /// <summary>
+        /// Used in Exit this Scene
+        /// </summary>
         public void ReleaseSYstemModel()
         {
             this.GetModel<IAerialDroneCount>().Channel.Clear();

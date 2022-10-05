@@ -1,2 +1,2 @@
 # UAV_delivery
-a simple simulation by Unity
+a simple drone simulation by Unity
